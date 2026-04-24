@@ -6,125 +6,129 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.eventmaster.ui.model.Category
 import com.example.eventmaster.ui.model.Event
-import com.example.eventmaster.ui.state.CategoryFormState
-import com.example.eventmaster.ui.state.EventFormState
 import com.example.eventmaster.ui.state.EventState
 
 class EventViewModel : ViewModel() {
 
-    var state by mutableStateOf(EventState())
+    var state by mutableStateOf(
+        EventState(
+            categories = listOf(
+                Category(1, "Música"),
+                Category(2, "Tecnología"),
+                Category(3, "Deportes")
+            )
+        )
+    )
         private set
 
-    var formState by mutableStateOf(EventFormState())
-        private set
-
-    var categoryFormState by mutableStateOf(CategoryFormState())
-        private set
-
-    private var nextEventId = 1
     private var nextCategoryId = 4
+    private var nextEventId = 1
 
 
-    fun onTitleChange(value: String) {
-        formState = formState.copy(title = value, titleError = null)
-    }
-
-    fun onDescriptionChange(value: String) {
-        formState = formState.copy(description = value, descriptionError = null)
-    }
-
-    fun onDateChange(value: String) {
-        formState = formState.copy(date = value, dateError = null)
-    }
-
-    fun onLocationChange(value: String) {
-        formState = formState.copy(location = value, locationError = null)
-    }
-
-    fun onCategorySelected(id: Int) {
-        formState = formState.copy(categoryId = id, categoryError = null)
-    }
-
-    fun submitEvent(): Boolean {
-
-        var hasError = false
-
-        if (formState.title.isBlank()) {
-            formState = formState.copy(titleError = "Campo obligatorio")
-            hasError = true
-        }
-
-        if (formState.description.isBlank()) {
-            formState = formState.copy(descriptionError = "Campo obligatorio")
-            hasError = true
-        }
-
-        if (formState.date.isBlank()) {
-            formState = formState.copy(dateError = "Campo obligatorio")
-            hasError = true
-        }
-        val dateRegex = Regex("^\\d{2}/\\d{2}/\\d{4}$")
-
-        if (!dateRegex.matches(formState.date)) {
-            formState = formState.copy(
-                dateError = "Formato inválido (dd/MM/yyyy)"
-            )
-            hasError = true
-        }
-
-        if (formState.location.isBlank()) {
-            formState = formState.copy(locationError = "Campo obligatorio")
-            hasError = true
-        }
-
-        if (formState.categoryId == null) {
-            formState = formState.copy(categoryError = "Selecciona categoría")
-            hasError = true
-        }
-
-        if (hasError) return false
-
-        val newEvent = Event(
-            id = nextEventId++,
-            categoryId = formState.categoryId!!,
-            title = formState.title,
-            description = formState.description,
-            date = formState.date,
-            location = formState.location
-        )
-
-        state = state.copy(events = state.events + newEvent)
-        formState = EventFormState()
-
-        return true
-    }
-    fun onCategoryNameChange(value: String) {
-        categoryFormState = categoryFormState.copy(
-            name = value,
-            nameError = null
-        )
-    }
-
-    fun addCategory(): Boolean {
-
-        if (categoryFormState.name.isBlank()) {
-            categoryFormState = categoryFormState.copy(
-                nameError = "Nombre obligatorio"
-            )
-            return false
-        }
-
+    fun addCategory(name: String, description: String = "") {
         val newCategory = Category(
             id = nextCategoryId++,
-            name = categoryFormState.name
+            name = name,
+            description = description
         )
 
         state = state.copy(
             categories = state.categories + newCategory
         )
+    }
 
-        categoryFormState = CategoryFormState()
 
-        return true
+    fun addEvent(
+        title: String,
+        description: String,
+        date: String,
+        location: String,
+        categoryId: Int,
+        imageResName: String? = null
+    ) {
+        val newEvent = Event(
+            id = nextEventId++,
+            categoryId = categoryId,
+            title = title,
+            description = description,
+            date = date,
+            location = location,
+            imageResName = imageResName
+        )
+
+        state = state.copy(
+            events = state.events + newEvent
+        )
+    }
+
+    fun getEventsByCategory(categoryId: Int): List<Event> {
+        return state.events.filter { it.categoryId == categoryId }
+    }
+
+    fun getEventById(id: Int): Event? {
+        return state.events.find { it.id == id }
+    }
+    fun validateAndAddEvent(
+        title: String,
+        description: String,
+        date: String,
+        location: String,
+        categoryId: Int
+    ): Pair<Boolean, Map<String, String>> {
+
+        val errors = mutableMapOf<String, String>()
+
+        if (title.isBlank()) {
+            errors["title"] = "Título obligatorio"
+        }
+
+        if (description.isBlank()) {
+            errors["description"] = "Descripción obligatoria"
+        }
+
+        if (location.isBlank()) {
+            errors["location"] = "Ubicación obligatoria"
+        }
+
+        if (date.isBlank()) {
+            errors["date"] = "Fecha obligatoria"
+        } else {
+            val regex = Regex("^\\d{2}/\\d{2}/\\d{4}$")
+
+            if (!regex.matches(date)) {
+                errors["date"] = "Formato debe ser dd/MM/yyyy"
+            }
+        }
+
+        if (errors.isNotEmpty()) {
+            return Pair(false, errors)
+        }
+
+        addEvent(
+            title = title,
+            description = description,
+            date = date,
+            location = location,
+            categoryId = categoryId
+        )
+
+        return Pair(true, emptyMap())
+    }
+    fun validateAndAddCategory(
+        name: String,
+        description: String
+    ): Pair<Boolean, String?> {
+
+        if (name.isBlank()) {
+            return Pair(false, "El nombre es obligatorio")
+        }
+
+        if (name.length < 3) {
+            return Pair(false, "Mínimo 3 caracteres")
+        }
+
+        addCategory(name, description)
+
+        return Pair(true, null)
     }
 }

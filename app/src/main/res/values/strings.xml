@@ -1,12 +1,30 @@
 <resources>
+
+    <!-- App -->
     <string name="app_name">EventMaster</string>
+
+    <!-- Home -->
+    <string name="create_category">Crear categoría</string>
     <string name="add_event">Agregar evento</string>
-    <string name="add_category">Agregar categoría</string>
-    <string name="no_events">No hay eventos</string>
+
+    <!-- Category -->
+    <string name="new_category">Nueva Categoría</string>
+    <string name="category_name">Nombre</string>
+    <string name="category_description">Descripción</string>
     <string name="save">Guardar</string>
-    <string name="ubication">Ubicación</string>
-    <string name="date">Fecha (dd/MM/yyyy)</string>
+
+    <!-- Event -->
+    <string name="new_event">Nuevo Evento</string>
+    <string name="title">Título</string>
     <string name="description">Descripción</string>
-    <string name="titulo">titulo</string>
-    <string name="name">Nombre</string>
+    <string name="date">Fecha (dd/MM/yyyy)</string>
+    <string name="location">Ubicación</string>
+    <string name="save_event">Guardar Evento</string>
+
+    <!-- Errors -->
+    <string name="error_name_required">El nombre es obligatorio</string>
+    <string name="error_name_short">Mínimo 3 caracteres</string>
+    <string name="error_required">Campo obligatorio</string>
+    <string name="error_date_format">Formato debe ser dd/MM/yyyy</string>
+
 </resources>

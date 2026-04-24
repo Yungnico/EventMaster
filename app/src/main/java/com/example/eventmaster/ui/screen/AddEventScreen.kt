@@ -1,20 +1,31 @@
 package com.example.eventmaster.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -24,75 +35,109 @@ import com.example.eventmaster.R
 import com.example.eventmaster.ui.components.CategoryDropdown
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddEventScreen(navController: NavController, viewModel: EventViewModel) {
+fun AddEventScreen(
+    navController: NavController,
+    viewModel: EventViewModel,
+    categoryId: Int
+) {
 
-    val form = viewModel.formState
-    val categories = viewModel.state.categories
+    var title by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+    var date by remember { mutableStateOf("") }
+    var location by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colorScheme.surface)
-        .padding(16.dp)) {
+    var errors by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
 
-        OutlinedTextField(
-            value = form.title,
-            onValueChange = { viewModel.onTitleChange(it) },
-            label = { Text(stringResource(R.string.titulo),color = MaterialTheme.colorScheme.onSurfaceVariant) },
-            isError = form.titleError != null
-        )
-        form.titleError?.let { Text(it, color = Color.Red) }
-
-        OutlinedTextField(
-            value = form.description,
-            onValueChange = { viewModel.onDescriptionChange(it) },
-            label = { Text(stringResource(R.string.description),color = MaterialTheme.colorScheme.onSurfaceVariant) },
-            isError = form.descriptionError != null
-        )
-        form.descriptionError?.let { Text(it, color = Color.Red) }
-
-        OutlinedTextField(
-            value = form.date,
-            onValueChange = { viewModel.onDateChange(it) },
-            label = { Text(stringResource(R.string.date),color = MaterialTheme.colorScheme.onSurfaceVariant) },
-            isError = form.dateError != null
-        )
-        form.dateError?.let { Text(it, color = Color.Red) }
-
-        OutlinedTextField(
-            value = form.location,
-            onValueChange = { viewModel.onLocationChange(it) },
-            label = { Text(stringResource(R.string.ubication),color = MaterialTheme.colorScheme.onSurfaceVariant) },
-            isError = form.locationError != null
-        )
-        form.locationError?.let { Text(it, color = Color.Red) }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        CategoryDropdown(
-            categories = categories,
-            selectedId = form.categoryId,
-            onCategorySelected = { viewModel.onCategorySelected(it) }
-        )
-        form.categoryError?.let {
-            Text(it, color = Color.Red)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.new_event)) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, null)
+                    }
+                }
+            )
         }
-        IconButton(onClick = {
-            navController.navigate("add_category")
-        }) {
-            Icon(Icons.Default.Add, contentDescription = null)
+    ) { padding ->
 
-        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
 
-        form.categoryError?.let { Text(it, color = Color.Red) }
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text(stringResource(R.string.title)) },
+                isError = errors["title"] != null,
+                modifier = Modifier.fillMaxWidth()
+            )
+            errors["title"]?.let {
+                Text(stringResource(R.string.error_required), color = MaterialTheme.colorScheme.error)
+            }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = description,
+                onValueChange = { description = it },
+                label = { Text(stringResource(R.string.description)) },
+                isError = errors["description"] != null,
+                modifier = Modifier.fillMaxWidth()
+            )
+            errors["description"]?.let {
+                Text(stringResource(R.string.error_required), color = MaterialTheme.colorScheme.error)
+            }
 
-        Button(onClick = {
-            val success = viewModel.submitEvent()
-            if (success) navController.popBackStack()
-        }) {
-            Text(stringResource(R.string.save))
+            OutlinedTextField(
+                value = date,
+                onValueChange = { date = it },
+                label = { Text(stringResource(R.string.date)) },
+                isError = errors["date"] != null,
+                modifier = Modifier.fillMaxWidth()
+            )
+            errors["date"]?.let {
+                Text(stringResource(R.string.error_date_format), color = MaterialTheme.colorScheme.error)
+            }
+
+            OutlinedTextField(
+                value = location,
+                onValueChange = { location = it },
+                label = { Text(stringResource(R.string.location)) },
+                isError = errors["location"] != null,
+                modifier = Modifier.fillMaxWidth()
+            )
+            errors["location"]?.let {
+                Text(stringResource(R.string.error_required), color = MaterialTheme.colorScheme.error)
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = {
+                    val (success, validationErrors) =
+                        viewModel.validateAndAddEvent(
+                            title,
+                            description,
+                            date,
+                            location,
+                            categoryId
+                        )
+
+                    if (success) {
+                        navController.popBackStack()
+                    } else {
+                        errors = validationErrors
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.save_event))
+            }
         }
     }
 }
