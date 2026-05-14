@@ -56,7 +56,7 @@ fun AddEventScreen(
                 title = { Text(stringResource(R.string.new_event)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
                     }
                 }
             )

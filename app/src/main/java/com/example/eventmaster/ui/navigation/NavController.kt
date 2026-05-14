@@ -1,8 +1,7 @@
 package com.example.eventmaster.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -18,16 +17,16 @@ fun AppNavigation() {
 
     val navController = rememberNavController()
 
-    val viewModel: EventViewModel = viewModel()
-
     NavHost(
         navController = navController,
         startDestination = "home"
     ) {
         composable("home") {
+            val viewModel: EventViewModel = hiltViewModel()
             HomeScreen(navController, viewModel)
         }
         composable("category/{categoryId}") { backStackEntry ->
+            val viewModel: EventViewModel = hiltViewModel()
             val categoryId = backStackEntry.arguments
                 ?.getString("categoryId")
                 ?.toIntOrNull() ?: 0
@@ -39,7 +38,7 @@ fun AppNavigation() {
             )
         }
         composable("event/{eventId}") { backStackEntry ->
-
+            val viewModel: EventViewModel = hiltViewModel()
             val eventId = backStackEntry.arguments
                 ?.getString("eventId")
                 ?.toIntOrNull() ?: 0
@@ -55,6 +54,7 @@ fun AppNavigation() {
         // AGREGAR CATEGORÍA
         // -------------------------
         composable("add_category") {
+            val viewModel: EventViewModel = hiltViewModel()
             AddCategoryScreen(navController, viewModel)
         }
 
@@ -62,7 +62,7 @@ fun AppNavigation() {
         // AGREGAR EVENTO
         // -------------------------
         composable("add_event/{categoryId}") { backStackEntry ->
-
+            val viewModel: EventViewModel = hiltViewModel()
             val categoryId = backStackEntry.arguments
                 ?.getString("categoryId")
                 ?.toIntOrNull() ?: 0

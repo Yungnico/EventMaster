@@ -1,9 +1,10 @@
 <resources>
 
     <!-- App -->
-    <string name="app_name">EventMaster</string>
+    <string name="app_name">EventMaster Pro</string>
 
     <!-- Home -->
+    <string name="home_title">EventMaster</string>
     <string name="create_category">Crear categoría</string>
     <string name="add_event">Agregar evento</string>
 
@@ -12,6 +13,8 @@
     <string name="category_name">Nombre</string>
     <string name="category_description">Descripción</string>
     <string name="save">Guardar</string>
+    <string name="events_title">Eventos</string>
+    <string name="select_category">Seleccionar categoría</string>
 
     <!-- Event -->
     <string name="new_event">Nuevo Evento</string>
@@ -20,6 +23,9 @@
     <string name="date">Fecha (dd/MM/yyyy)</string>
     <string name="location">Ubicación</string>
     <string name="save_event">Guardar Evento</string>
+    <string name="event_detail">Detalle del Evento</string>
+    <string name="event_date_label">Fecha: %s</string>
+    <string name="event_location_label">Lugar: %s</string>
 
     <!-- Errors -->
     <string name="error_name_required">El nombre es obligatorio</string>

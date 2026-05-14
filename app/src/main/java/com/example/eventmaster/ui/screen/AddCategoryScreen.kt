@@ -50,7 +50,7 @@ fun AddCategoryScreen(
                 title = { Text(stringResource(R.string.new_category)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
                     }
                 }
             )

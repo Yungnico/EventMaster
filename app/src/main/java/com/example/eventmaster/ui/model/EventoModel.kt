@@ -1,7 +1,7 @@
 package com.example.eventmaster.ui.model
 
 data class Event(
-    val id: Int,
+    val id: Int = 0,
     val categoryId: Int,
     val title: String,
     val description: String,
@@ -11,7 +11,7 @@ data class Event(
 )
 
 data class Category(
-    val id: Int,
+    val id: Int = 0,
     val name: String,
     val description: String = ""
 )
