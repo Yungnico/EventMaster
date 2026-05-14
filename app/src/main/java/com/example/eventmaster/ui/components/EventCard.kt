@@ -11,7 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.eventmaster.R
 import com.example.eventmaster.ui.model.Event
 
 @Composable
@@ -34,17 +36,25 @@ fun EventCard(event: Event, categoryName: String) {
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            Text("Categoría: $categoryName",
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text("Fecha: ${event.date}",
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text("Ubicación: ${event.location}",
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                text = stringResource(R.string.category_label, categoryName),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = stringResource(R.string.event_date_label, event.date),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = stringResource(R.string.event_location_full_label, event.location),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(event.description,
-                color = MaterialTheme.colorScheme.onSurface)
+            Text(
+                text = event.description,
+                color = MaterialTheme.colorScheme.onSurface
+            )
         }
     }
 }

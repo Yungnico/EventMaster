@@ -22,8 +22,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.eventmaster.R
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 
@@ -41,7 +43,7 @@ fun HomeScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("EventMaster")
+                    Text(stringResource(R.string.home_title))
                 }
             )
         },
@@ -52,7 +54,7 @@ fun HomeScreen(
                 ExtendedFloatingActionButton(
                     onClick = { navController.navigate("add_category") },
                     icon = { Icon(Icons.Outlined.Category, null) },
-                    text = { Text("Crear categoría") }
+                    text = { Text(stringResource(R.string.create_category)) }
                 )
             }
         }

@@ -3,6 +3,7 @@ package com.example.eventmaster.ui.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -13,6 +14,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.eventmaster.R
 import com.example.eventmaster.ui.model.Category
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,12 +38,13 @@ fun CategoryDropdown(
             value = selectedCategory?.name ?: "",
             onValueChange = {},
             readOnly = true,
-            label = { Text("Seleccionar categoría") },
+            label = { Text(stringResource(R.string.select_category)) },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded)
             },
             modifier = Modifier
                 .fillMaxWidth()
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
         )
 
         ExposedDropdownMenu(

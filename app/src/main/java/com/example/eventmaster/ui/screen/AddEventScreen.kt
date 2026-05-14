@@ -1,17 +1,13 @@
 package com.example.eventmaster.ui.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -27,12 +23,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.eventmaster.R
-import com.example.eventmaster.ui.components.CategoryDropdown
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,7 +42,7 @@ fun AddEventScreen(
     var date by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
 
-    var errors by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
+    var errors by remember { mutableStateOf<Map<String, Int>>(emptyMap()) }
 
     Scaffold(
         topBar = {
@@ -79,7 +73,7 @@ fun AddEventScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             errors["title"]?.let {
-                Text(stringResource(R.string.error_required), color = MaterialTheme.colorScheme.error)
+                Text(stringResource(it), color = MaterialTheme.colorScheme.error)
             }
 
             OutlinedTextField(
@@ -90,7 +84,7 @@ fun AddEventScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             errors["description"]?.let {
-                Text(stringResource(R.string.error_required), color = MaterialTheme.colorScheme.error)
+                Text(stringResource(it), color = MaterialTheme.colorScheme.error)
             }
 
             OutlinedTextField(
@@ -101,7 +95,7 @@ fun AddEventScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             errors["date"]?.let {
-                Text(stringResource(R.string.error_date_format), color = MaterialTheme.colorScheme.error)
+                Text(stringResource(it), color = MaterialTheme.colorScheme.error)
             }
 
             OutlinedTextField(
@@ -112,7 +106,7 @@ fun AddEventScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             errors["location"]?.let {
-                Text(stringResource(R.string.error_required), color = MaterialTheme.colorScheme.error)
+                Text(stringResource(it), color = MaterialTheme.colorScheme.error)
             }
 
             Spacer(modifier = Modifier.weight(1f))

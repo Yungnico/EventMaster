@@ -23,8 +23,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.eventmaster.R
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +44,7 @@ fun CategoryDetailScreen(
         // 🔝 BOTÓN ARRIBA
         topBar = {
             TopAppBar(
-                title = { Text("Eventos") },
+                title = { Text(stringResource(R.string.events_title)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
@@ -57,7 +59,7 @@ fun CategoryDetailScreen(
                     navController.navigate("add_event/$categoryId")
                 },
                 icon = { Icon(Icons.Default.Add, null) },
-                text = { Text("Agregar evento") }
+                text = { Text(stringResource(R.string.add_event)) }
             )
         }
 
@@ -83,8 +85,8 @@ fun CategoryDetailScreen(
                     Column(Modifier.padding(16.dp)) {
                         Text(event.title, style = MaterialTheme.typography.titleMedium)
                         Text(event.description)
-                        Text("Fecha : ${event.date}")
-                        Text("Lugar : ${event.location}")
+                        Text(stringResource(R.string.event_date_label, event.date))
+                        Text(stringResource(R.string.event_location_label, event.location))
                     }
                 }
             }

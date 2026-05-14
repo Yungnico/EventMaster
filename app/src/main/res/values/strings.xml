@@ -15,6 +15,7 @@
     <string name="save">Guardar</string>
     <string name="events_title">Eventos</string>
     <string name="select_category">Seleccionar categoría</string>
+    <string name="category_label">Categoría: %s</string>
 
     <!-- Event -->
     <string name="new_event">Nuevo Evento</string>
@@ -26,6 +27,7 @@
     <string name="event_detail">Detalle del Evento</string>
     <string name="event_date_label">Fecha: %s</string>
     <string name="event_location_label">Lugar: %s</string>
+    <string name="event_location_full_label">Ubicación: %s</string>
 
     <!-- Errors -->
     <string name="error_name_required">El nombre es obligatorio</string>

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.eventmaster.R
 import com.example.eventmaster.repository.categoria.CategoryRepository
 import com.example.eventmaster.repository.eventos.EventRepository
 import com.example.eventmaster.ui.model.Category
@@ -28,7 +29,6 @@ class EventViewModel @Inject constructor(
         viewModelScope.launch {
             categoryRepository.getAllCategories().collectLatest { categories ->
                 if (categories.isEmpty()) {
-                    // Seed initial data if empty
                     seedData()
                 } else {
                     state = state.copy(categories = categories)
@@ -65,7 +65,7 @@ class EventViewModel @Inject constructor(
         viewModelScope.launch {
             eventRepository.insertEvent(
                 Event(
-                    id = 0, // Room will generate ID
+                    id = 0,
                     categoryId = categoryId,
                     title = title,
                     description = description,
@@ -91,28 +91,28 @@ class EventViewModel @Inject constructor(
         date: String,
         location: String,
         categoryId: Int
-    ): Pair<Boolean, Map<String, String>> {
+    ): Pair<Boolean, Map<String, Int>> {
 
-        val errors = mutableMapOf<String, String>()
+        val errors = mutableMapOf<String, Int>()
 
         if (title.isBlank()) {
-            errors["title"] = "Título obligatorio"
+            errors["title"] = R.string.error_required
         }
 
         if (description.isBlank()) {
-            errors["description"] = "Descripción obligatoria"
+            errors["description"] = R.string.error_required
         }
 
         if (location.isBlank()) {
-            errors["location"] = "Ubicación obligatoria"
+            errors["location"] = R.string.error_required
         }
 
         if (date.isBlank()) {
-            errors["date"] = "Fecha obligatoria"
+            errors["date"] = R.string.error_required
         } else {
             val regex = Regex("^\\d{2}/\\d{2}/\\d{4}$")
             if (!regex.matches(date)) {
-                errors["date"] = "Formato debe ser dd/MM/yyyy"
+                errors["date"] = R.string.error_date_format
             }
         }
 
@@ -120,32 +120,24 @@ class EventViewModel @Inject constructor(
             return Pair(false, errors)
         }
 
-        addEvent(
-            title = title,
-            description = description,
-            date = date,
-            location = location,
-            categoryId = categoryId
-        )
-
+        addEvent(title, description, date, location, categoryId)
         return Pair(true, emptyMap())
     }
 
     fun validateAndAddCategory(
         name: String,
         description: String
-    ): Pair<Boolean, String?> {
+    ): Pair<Boolean, Int?> {
 
         if (name.isBlank()) {
-            return Pair(false, "El nombre es obligatorio")
+            return Pair(false, R.string.error_name_required)
         }
 
         if (name.length < 3) {
-            return Pair(false, "Mínimo 3 caracteres")
+            return Pair(false, R.string.error_name_short)
         }
 
         addCategory(name, description)
-
         return Pair(true, null)
     }
 }

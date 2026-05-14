@@ -13,8 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.eventmaster.R
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,7 +32,7 @@ fun EventDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Detalle") },
+                title = { Text(stringResource(R.string.event_detail)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
@@ -49,8 +51,8 @@ fun EventDetailScreen(
             event?.let {
                 Text(it.title, style = MaterialTheme.typography.titleLarge)
                 Text(it.description)
-                Text("Fecha : ${it.date}")
-                Text("Lugar : ${it.location}")
+                Text(stringResource(R.string.event_date_label, it.date))
+                Text(stringResource(R.string.event_location_label, it.location))
             }
         }
     }
