@@ -1,4 +1,4 @@
-package com.example.eventmaster.repository.eventos
+package com.example.eventmaster.data.repository.eventos
 
 import com.example.eventmaster.ui.model.Event
 import kotlinx.coroutines.flow.Flow

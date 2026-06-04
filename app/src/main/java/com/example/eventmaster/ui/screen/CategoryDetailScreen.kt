@@ -40,8 +40,6 @@ fun CategoryDetailScreen(
     val events = viewModel.getEventsByCategory(categoryId)
 
     Scaffold(
-
-        // 🔝 BOTÓN ARRIBA
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.events_title)) },

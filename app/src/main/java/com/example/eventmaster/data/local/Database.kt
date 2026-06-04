@@ -1,13 +1,13 @@
-package com.example.eventmaster.local
+package com.example.eventmaster.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.eventmaster.local.dao.CategoryDao
-import com.example.eventmaster.local.dao.EventDao
-import com.example.eventmaster.local.entity.CategoryEntity
-import com.example.eventmaster.local.entity.EventEntity
+import com.example.eventmaster.data.local.dao.CategoryDao
+import com.example.eventmaster.data.local.dao.EventDao
+import com.example.eventmaster.data.local.entity.CategoryEntity
+import com.example.eventmaster.data.local.entity.EventEntity
 
 @Database(entities = [CategoryEntity::class, EventEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

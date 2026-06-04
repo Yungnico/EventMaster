@@ -1,9 +1,9 @@
 package com.example.eventmaster.di
 
-import com.example.eventmaster.repository.categoria.CategoryRepository
-import com.example.eventmaster.repository.categoria.CategoryRepositoryImpl
-import com.example.eventmaster.repository.eventos.EventRepository
-import com.example.eventmaster.repository.eventos.EventRepositoryImpl
+import com.example.eventmaster.data.repository.categoria.CategoryRepository
+import com.example.eventmaster.data.repository.categoria.CategoryRepositoryImpl
+import com.example.eventmaster.data.repository.eventos.EventRepository
+import com.example.eventmaster.data.repository.eventos.EventRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

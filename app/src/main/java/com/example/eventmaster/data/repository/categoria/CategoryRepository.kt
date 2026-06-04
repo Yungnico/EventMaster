@@ -1,4 +1,4 @@
-package com.example.eventmaster.repository.categoria
+package com.example.eventmaster.data.repository.categoria
 
 import com.example.eventmaster.ui.model.Category
 import kotlinx.coroutines.flow.Flow

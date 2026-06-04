@@ -1,4 +1,4 @@
-package com.example.eventmaster.local.entity
+package com.example.eventmaster.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey

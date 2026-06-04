@@ -1,7 +1,7 @@
 package com.example.eventmaster.di
 
 import android.content.Context
-import com.example.eventmaster.local.AppDatabase
+import com.example.eventmaster.data.local.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

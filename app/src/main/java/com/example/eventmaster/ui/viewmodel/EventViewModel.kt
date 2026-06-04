@@ -6,13 +6,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eventmaster.R
-import com.example.eventmaster.repository.categoria.CategoryRepository
-import com.example.eventmaster.repository.eventos.EventRepository
+import com.example.eventmaster.data.repository.categoria.CategoryRepository
+import com.example.eventmaster.data.repository.eventos.EventRepository
 import com.example.eventmaster.ui.model.Category
 import com.example.eventmaster.ui.model.Event
 import com.example.eventmaster.ui.state.EventState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,30 +22,24 @@ class EventViewModel @Inject constructor(
     private val eventRepository: EventRepository
 ) : ViewModel() {
 
-    var state by mutableStateOf(EventState())
+    var state by mutableStateOf(EventState(isLoading = true))
         private set
 
     init {
         viewModelScope.launch {
-            categoryRepository.getAllCategories().collectLatest { categories ->
-                if (categories.isEmpty()) {
-                    seedData()
-                } else {
-                    state = state.copy(categories = categories)
-                }
+            combine(
+                categoryRepository.getAllCategories(),
+                eventRepository.getAllEvents()
+            ) { categories, events ->
+                EventState(
+                    categories = categories,
+                    events = events,
+                    isLoading = false
+                )
+            }.collect { newState ->
+                state = newState
             }
         }
-        viewModelScope.launch {
-            eventRepository.getAllEvents().collectLatest { events ->
-                state = state.copy(events = events)
-            }
-        }
-    }
-
-    private suspend fun seedData() {
-        categoryRepository.insertCategory(Category(name = "Música", description = "Conciertos y festivales"))
-        categoryRepository.insertCategory(Category(name = "Tecnología", description = "Conferencias y talleres"))
-        categoryRepository.insertCategory(Category(name = "Deportes", description = "Torneos y competencias"))
     }
 
     fun addCategory(name: String, description: String = "") {

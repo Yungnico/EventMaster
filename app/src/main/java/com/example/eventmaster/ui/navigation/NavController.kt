@@ -50,17 +50,11 @@ fun AppNavigation() {
             )
         }
 
-        // -------------------------
-        // AGREGAR CATEGORÍA
-        // -------------------------
         composable("add_category") {
             val viewModel: EventViewModel = hiltViewModel()
             AddCategoryScreen(navController, viewModel)
         }
 
-        // -------------------------
-        // AGREGAR EVENTO
-        // -------------------------
         composable("add_event/{categoryId}") { backStackEntry ->
             val viewModel: EventViewModel = hiltViewModel()
             val categoryId = backStackEntry.arguments
